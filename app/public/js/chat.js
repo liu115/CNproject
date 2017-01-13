@@ -56,11 +56,13 @@ function sendmsg(){
 	var msg = msg_box.value;
 	if(msg!=""){
 		socket.emit('send', JSON.stringify({"token":token, "userId":userId, "to":friend_id, "content":msg}), function(data){
+			var res = JSON.parse(data);
+			console.log("res:"+res);
+			msg_box.value="";
 			if(data.success=='true'){
-				msg_box.value="";
 				console.log("send");	
 			}else{
-				sendmsg();
+				//sendmsg();
 			}
 		});
 	}
