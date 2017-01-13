@@ -59,6 +59,7 @@ function sendmsg(){
 			var res = JSON.parse(data);
 			console.log("res:"+res);
 			msg_box.value="";
+			update_box("me", msg);
 			if(data.success=='true'){
 				console.log("send");	
 			}else{
