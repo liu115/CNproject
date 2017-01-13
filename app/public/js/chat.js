@@ -8,6 +8,7 @@ console.log("token:"+token);
 console.log("id:"+friend_id);
 var socket = io('//localhost:3000/chat');
 window.onload = init;
+window.addEventListener("load", Ready); 
 socket.on('init', function (data, fn) {
   console.log("server ping");
   var json = JSON.stringify({"token":token, "userId":userId});
@@ -19,6 +20,9 @@ socket.on('send', function (data) {
   console.log(res);
   update_box(res.name, res.content);
 });
+var SelectedFile;
+var FReader;
+var Name;
 function init(){
 	request_history();
 	document.getElementById("msgblock").addEventListener("keyup", function(event) {
@@ -66,6 +70,37 @@ function sendmsg(){
 				//sendmsg();
 			}
 		});
+	}
+}
+ 
+function Ready(){
+	console.log('ready');
+	if(window.File && window.FileReader){ //These are the relevant HTML5 objects that we are going to use 
+		document.getElementById('UploadButton').addEventListener('click', StartUpload);  
+		document.getElementById('FileBox').addEventListener('change', FileChosen);
+	}
+	else
+	{
+		alert("Browser doesn't support!");
+	}
+}
+function FileChosen(evnt) {
+	SelectedFile = evnt.target.files[0];
+}
+function StartUpload(){
+	if(document.getElementById('FileBox').value != "")
+	{
+		FReader = new FileReader();
+		Name = document.getElementById('FileBox').value;
+		console.log("file upload! file name="+Name);
+		FReader.onload = function(evnt){
+			socket.emit('upload', {'name' : Name, data : evnt.target.result});
+		}
+		//socket.emit('start', JSON.stringify({name : Name, size : SelectedFile.size}));
+	}
+	else
+	{
+		alert("Please Select A File");
 	}
 }
 function goback(){
