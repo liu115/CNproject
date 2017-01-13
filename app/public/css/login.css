@@ -1,0 +1,29 @@
+body{
+	color: blue;
+	background-color: #FFFAF0;
+	font-size: 21px;
+}
+p{
+	color: #CD9B9B;
+	text-align: center;
+	font-family: verdana;
+}
+button{
+	background-color: #00000000;
+	border: 2px solid #CD919E;
+	border-radius: 6px;
+	color: black;
+	padding: 3px 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 18px;
+	cursor: pointer;
+}
+form{
+	color: #CD9B9B;
+	text-align: center;
+	font-family: verdana;
+	
+	
+}

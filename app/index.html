@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/js/index_socket.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/index.css">
+    <style>
+	    button{
+		    background-color: #00000000;
+		    border: 2px solid #CD919E;
+		    border-radius: 6px;
+		    color: black;
+		    padding: 2px 5px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 14px;
+		    cursor: pointer;
+	    }
+    </style>
+  </head>
+  <body>
+	  <div>Here are your friends.  <button onclick="logout()">LOGOUT</button></div>
+	  <ul id="friend_list" >
+	  </ul>
+  </body>
+</html>

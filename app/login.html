@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Login</title>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="/public/js/socket.js"></script>
+	<link rel="stylesheet" type="text/css" href="/public/css/login.css">
+    </head>
+    <body>
+	<p>account:<input type="text" id="login_account"></p>
+	<p>password:<input  type="password" id="login_pswd"></p>
+<!--	<form id = "form" action = "/login" method="post">
+		account: <input type="text" id="login_account" name="id"><br><br>
+		password: <input type="password" id="login_pswd" name="password"><br><br><hr>
+		<input 	type="submit" value="Submit">
+	</form>-->
+	<hr>
+	<p>
+	<button type="button" id="register_button" onclick="switch_page(0)">register</button>
+	<button type="button" id="login_button" onclick="get_login_info()">login</button>
+	</p>
+    </body>
+</html>
