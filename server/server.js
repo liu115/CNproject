@@ -4,6 +4,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var path = require('path');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 var register = require('./routers/register');
 var login = require('./routers/login');
@@ -81,7 +82,7 @@ function sendto(id, data) {
   var socketId = client[`c${id}`].socketId;
   console.log('to ' + socketId);
   io.of('/chat').connected[socketId]
-    .emit('send', JSON.stringify(data));
+    .emit('send', data);
 }
 chat_socket.on('connection', function (socket) {
   socket.emit('init', null, function (data) {
@@ -119,7 +120,7 @@ chat_socket.on('connection', function (socket) {
       if (user === null) return 0;
       var userId = user.userId;
       console.log(socket.id);
-      Message.find({ $or: [{to: userId}, {from: userId}] }).exec((err, messages) => {
+      Message.find({ $or: [{from: target, to: userId}, {from: userId, to: target}] }).exec((err, messages) => {
         var sendback = {
           success: 'true',
           messages: messages.map(msg => ({
@@ -150,12 +151,13 @@ chat_socket.on('connection', function (socket) {
       if (err) return fn(JSON.stringify({ success: 'false' }));
       console.log('clients: ');
       console.log(io.of('/chat').clients);
-      sendto(json.to, JSON.stringify({ name: 'other', content: message.content }));
+      sendto(json.to, JSON.stringify({ name: 'other', content: json.content }));
       fn(JSON.stringify({ success: 'true' }));
     });
 
     console.log('something send');
   });
+
   socket.on('disconnect', function () {
     console.log('disconnect with client');
   });
