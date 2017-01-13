@@ -2,19 +2,12 @@
   <head>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/public/js/chat.js"></script>
-    <style>
-	    *{margin:0; padding: 0; box-sizing: border-box;}
-	    body{font: 20px Helvetica, Arial;}
-	    p{background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%;}
-	    p input{border: 0; padding: 10px; width:76%;}
-	    p button{width: 9%; background: rgb(80,155,155); border: none; padding:10px; margin-right:15px; margin-left:15px;}
-	    li{font: 26px; margin-top:5px; margin-bottom:5px;}
-    </style>
+    <link rel="stylesheet" type="text/css" href="/public/css/chat.css">
   </head>
   <body>
 	  <div>Chat Room. <button onclick="goback()">GO Back</button></div>
 	  <ul id="message"></ul>	
-	  <p><button >upload</button><input id='msgblock' autocomplete="off"/><button onclick="sendmsg()">Send</button><p>
+	  <p><input type="file">upload</input><input id='msgblock' autocomplete="off"/><button onclick="sendmsg()">Send</button><p>
 	
   </body>
 </html>

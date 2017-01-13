@@ -15,8 +15,9 @@ socket.on('init', function (data, fn) {
   fn(JSON.stringify({"token":token, "userId":userId}));
 });
 socket.on('send', function (data) {
-  console.log(data);
-  update_box(data.name, data.content);
+  var res = JSON.parse(data);
+  console.log(res);
+  update_box(res.name, res.content);
 });
 function init(){
 	request_history();
