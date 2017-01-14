@@ -18,7 +18,16 @@ socket.on('init', function (data, fn) {
 socket.on('send', function (data) {
   var res = JSON.parse(data);
   console.log(res);
-  update_box(res.name, res.content);
+  update_box(res.name, res.content, res.href);
+});
+socket.on('upload done', function (data) {
+  var res = JSON.parse(data);
+  console.log(res);
+  update_box("me", res.content, res.href);
+  socket.emit('send', 
+	  JSON.stringify({"token":token, "userId":userId, "to":friend_id, "content":res.content, "href":res.href}), 
+	  function(data){
+  });
 });
 var SelectedFile;
 var FReader;
@@ -41,7 +50,13 @@ function request_history(){
 			var list = res.messages;
 			var tmp = "";
 			for(var i in list){
-				tmp = tmp + "<li>"+list[i].from+": "+list[i].content+"</li>";
+				if(list[i].href==undefined){
+					tmp = tmp + "<li>"+list[i].from+": "+list[i].content+"</li>";
+				}else{
+					tmp = tmp + "<li>"+list[i].from+
+					": <a href=\""+list[i].href+"\" target=\"_blank\">"+
+					list[i].content+"</a></li>";
+				}
 			}
 			ul.innerHTML=tmp;
 		}else{
@@ -49,10 +64,14 @@ function request_history(){
 		}
 	});
 }
-function update_box(name, content){
+function update_box(name, content, href){
 	var ul = document.getElementById("message");
 	var tmp = ul.innerHTML;
-	tmp = tmp + "<li>"+name+": "+content+"</li>";
+	if(href==undefined){
+		tmp = tmp + "<li>"+name+": "+content+"</li>";
+	}else{
+		tmp = tmp + "<li>"+name+": <a href=\""+href+"\" target=\"_blank\">"+content+"</a></li>";
+	}
 	ul.innerHTML=tmp;
 }
 function sendmsg(){
