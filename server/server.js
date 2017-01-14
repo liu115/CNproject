@@ -137,7 +137,7 @@ chat_socket.on('connection', function (socket) {
     var userId = json.userId;
     console.log(userId);
     console.log(client[`c${userId}`]);
-    //var userId = client.find((user) => (user.token == data.token));
+
     if (client[`c${userId}`].token != json.token) {
       return fn(JSON.stringify({ success: 'false' }));
     }
@@ -158,6 +158,19 @@ chat_socket.on('connection', function (socket) {
     console.log('something send');
   });
 
+  socket.on('upload', function(data) {
+    var name = data.name, data = data.data;
+    var dir = path.join(__dirname, '../', 'app', 'public', 'download');
+    console.log(dir);
+    fs.open(dir + '/' + name, "w", 0755, function (err, fd) {
+      if (err) console.log(err);
+      fs.write(fd, data, null, 'Binary', function(write_err, written) {
+        if (write_err) console.log(write_err);
+        console.log(written);
+      });
+    });
+
+  });
   socket.on('disconnect', function () {
     console.log('disconnect with client');
   });
