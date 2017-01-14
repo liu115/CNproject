@@ -21,27 +21,20 @@ router.post('/', (req, res) => {
 
 router.get('/', function(req, res) {
   // TODO: check login session, or redirct to /
-  res.sendFile(path.join(__dirname, '../../', 'app', 'register.html'));
-  console.log('get /register');
-});
+  var cookie = req.cookies;
+  if (cookie.token != undefined && cookie.userId != undefined) {
+    User.findById(cookie.token, (err, data) => {
+      if (data.userId == cookie.userId) {
+        res.redirect("/");
+      }
+      else
+        res.sendFile(path.join(__dirname, '../../', 'app', 'login.html'));
 
-// Only for testing
-router.get('/list/user', (req, res) => {
-  User.find({}, 'username').exec((err, users) => {
-    res.json(users);
-  });
-});
-router.get('/list/msg', (req, res) => {
-  // Message.create({
-  //   content: 'aavsv',
-  //   from: '1',
-  //   to: '0'
-  // }, (err, user) => {
-  //   if (err) console.log(err);
-  // });
-  Message.find().exec((err, messages) => {
-    res.json(messages);
-  });
+    });
+  }
+  else
+    res.sendFile(path.join(__dirname, '../../', 'app', 'register.html'));
+  console.log('get /register');
 });
 
 module.exports = router;
