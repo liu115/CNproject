@@ -1,10 +1,11 @@
 *{
-	margin:0; 
+	margin:0;
 	padding: 0; 
 	box-sizing: border-box;
 }
 body{
 	font-size: 20px;
+	background: #FFF0F5; 
 }
 p{
 	background: #888888;
@@ -13,18 +14,46 @@ p{
 	bottom: 0;
 	width: 100%;
 }
+div{
+	background: #FFF8DC;
+	padding: 3px;
+	position:fixed;
+	top: 0;
+	width: 100%;
+}
+ul{
+	margin-bottom: 50px;
+	
+}
+li{
+	margin-top:10px;
+	margin-bottom:10px;
+	font-size:25px;
+}
 #msgblock{
 	border: 0;
 	padding: 10px;
 	width:65%;
 }
 #send_button{
-	width: 9%;
-	background: rgb(80,155,155);
+	width: 6%;
+	background: #F5FFFA;
 	border: none;
-	padding:10px;
-	margin-right:15px;
-	margin-left:15px;
+	padding:5px;
+	margin-left:5px;
 	cursor:pointer;
-	font-size:15px;
+	font-size:22px;
+	border-radius: 6px;
 }
+#go_back_button{
+	background-color: #00000000;
+	border: 2px solid #CD919E;
+	border-radius: 6px;
+	color: black;
+	padding: 3px 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 18px;
+	cursor: pointer;
+									}
