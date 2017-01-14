@@ -128,21 +128,23 @@ chat_socket.on('connection', function (socket) {
       if (user === null) return 0;
       var userId = user.userId;
       console.log(socket.id);
-      Message.find({ $or: [{from: target, to: userId}, {from: userId, to: target}] }).exec((err, messages) => {
-        var sendback = {
-          success: 'true',
-          messages: messages.map(msg => {
-            var message = {
-              from: (userId == msg.from) ? 'me' : 'other',
-              content: msg.content
-            };
-            if (msg.href != undefined) {
-              message.href = msg.href;
-            }
-            return message;
-          })
-        };
-        return fn(JSON.stringify(sendback));
+      User.findOne({ userId: target }, (err, target_user) => {
+        Message.find({ $or: [{from: target, to: userId}, {from: userId, to: target}] }).exec((err, messages) => {
+          var sendback = {
+            success: 'true',
+            messages: messages.map(msg => {
+              var message = {
+                from: (userId == msg.from) ? 'me' : target_user.username,
+                content: msg.content
+              };
+              if (msg.href != undefined) {
+                message.href = msg.href;
+              }
+              return message;
+            })
+          };
+          return fn(JSON.stringify(sendback));
+        });
       });
     });
   });
