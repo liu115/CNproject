@@ -123,10 +123,16 @@ chat_socket.on('connection', function (socket) {
       Message.find({ $or: [{from: target, to: userId}, {from: userId, to: target}] }).exec((err, messages) => {
         var sendback = {
           success: 'true',
-          messages: messages.map(msg => ({
-            from: (userId == msg.from) ? 'me' : 'other',
-            content: msg.content
-          }))
+          messages: messages.map(msg => {
+            var message = {
+              from: (userId == msg.from) ? 'me' : 'other',
+              content: msg.content
+            };
+            if (msg.href != undefined) {
+              message.href = msg.href;
+            }
+            return message;
+          })
         };
         return fn(JSON.stringify(sendback));
       });
@@ -147,12 +153,19 @@ chat_socket.on('connection', function (socket) {
       content: json.content,
       to: json.to
     };
+    if (json.href != undefined) {
+      message.href = json.href;
+    }
     Message.create(message, (err, msg) => {
       if (err) return fn(JSON.stringify({ success: 'false' }));
-      console.log('clients: ');
-      console.log(io.of('/chat').clients);
-      sendto(json.to, JSON.stringify({ name: 'other', content: json.content }));
-      fn(JSON.stringify({ success: 'true' }));
+      User.findOne({ userId: json.to }, (err, target_user) => {
+        if (err) return fn(JSON.stringify({ success: 'false' }));
+        if (json.href != undefined)
+          sendto(json.to, JSON.stringify({ name: target_user.username, content: json.content }));
+        else
+          sendto(json.to, JSON.stringify({ name: target_user.username, content: json.content, href: json.href }));
+        fn(JSON.stringify({ success: 'true' }));
+      });
     });
 
     console.log('something send');
@@ -167,6 +180,7 @@ chat_socket.on('connection', function (socket) {
       fs.write(fd, data, null, 'Binary', function(write_err, written) {
         if (write_err) console.log(write_err);
         console.log(written);
+        socket.emit('upload done', JSON.stringify({href: `/public/download/${name}`, name: name}));
       });
     });
 

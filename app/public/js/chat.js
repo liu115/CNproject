@@ -22,10 +22,9 @@ socket.on('send', function (data) {
 });
 socket.on('upload done', function (data) {
   var res = JSON.parse(data);
-  console.log(res);
-  update_box("me", res.content, res.href);
-  socket.emit('send', 
-	  JSON.stringify({"token":token, "userId":userId, "to":friend_id, "content":res.content, "href":res.href}), 
+  update_box("me", res.name, res.href);
+  socket.emit('send',
+	  JSON.stringify({"token":token, "userId":userId, "to":friend_id, "content":res.name, "href":res.href}),
 	  function(data){
   });
 });

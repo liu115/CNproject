@@ -22,7 +22,8 @@ const MsgSchema = new mongoose.Schema({
   // messageId: { type: String, required: true },
   content: { type: String, required: true },
   from: { type: String, require: true },
-  to: { type: String, require: true }
+  to: { type: String, require: true },
+  href: { type: String}
 }, options);
 
 // MsgSchema.plugin(autoIncrement.plugin, { model: 'Message', field: 'msgId'});
