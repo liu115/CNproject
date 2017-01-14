@@ -28,7 +28,19 @@ router.post('/', (req, res) => {
 
 router.get('/', function(req, res) {
   // TODO: check login session, or redirct to /
-  res.sendFile(path.join(__dirname, '../../', 'app', 'login.html'));
+  var cookie = req.cookies;
+  if (cookie.token != undefined && cookie.userId != undefined) {
+    User.findById(cookie.token, (err, data) => {
+      if (data.userId == cookie.userId) {
+        res.redirect("/");
+      }
+      else
+        res.sendFile(path.join(__dirname, '../../', 'app', 'login.html'));
+
+    });
+  }
+  else
+    res.sendFile(path.join(__dirname, '../../', 'app', 'login.html'));
   console.log('get /login');
 });
 

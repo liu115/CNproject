@@ -39,14 +39,22 @@ app.post('/register', (req, res) => {
 
 app.get('/', function(req, res, next) {
   // TODO: check login session, or redirct to /login
-  res.sendFile(path.join(__dirname, '../', 'app', 'index.html'));
+  var cookie = req.cookies;
+  if (cookie.token == undefined)
+    res.redirect('/login');
+  else
+    res.sendFile(path.join(__dirname, '../', 'app', 'index.html'));
   console.log('get /');
 });
 
 var chat_socket = io.of('/chat');
 app.get('/chat/:id', function(req, res) {
   // TODO: check login session, or redirct to /login
-  res.sendFile(path.join(__dirname, '../', 'app', 'chat.html'));
+  var cookie = req.cookies;
+  if (cookie.token == undefined)
+    res.redirect('/login');
+  else
+    res.sendFile(path.join(__dirname, '../', 'app', 'chat.html'));
 
 
   console.log('get /chat');
